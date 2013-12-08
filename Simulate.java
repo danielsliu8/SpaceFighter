@@ -1,3 +1,7 @@
+/*
+ * Simulate runs the game. Sets up the Frame and Graphics and stuff.
+ */
+
 import java.awt.*;
 import javax.swing.*;
 
@@ -23,7 +27,6 @@ public class Simulate extends JPanel {
 		panel.setDoubleBuffered(true);
 		frame.add(panel);
 		
-		
 		Canvas canvas = new Canvas();
 		canvas.setBackground(Color.black);
 		canvas.setSize(Space.gridWidth*cellSize, Space.gridWidth*cellSize);
@@ -31,6 +34,7 @@ public class Simulate extends JPanel {
 		Graphics graphics = canvas.getGraphics();
 		Graphics gdb = graphics.create();
 		
+		//main game loop
 		while(true) {
 			dbspace = space;
 			drawSpace(gdb, dbspace);
@@ -56,6 +60,7 @@ public class Simulate extends JPanel {
 		}
 	}
 	
+	//goes through space's grid and draws it.
 	private static void drawSpace(Graphics graphics, Space space) {
 		for (int i = 0; i < Space.gridWidth; i+=cellSize) {
 			for (int j = 0; j < Space.gridHeight; j+=cellSize) {

@@ -1,4 +1,9 @@
-
+/*
+ *  Space is the object that holds most everything that happens in this game. Contains a Fighter,
+ *  some invaders, projectiles, and a grid that tracks where everything is. Space has methods 
+ *  relating to how elements interact with each other. Space also handles collisions between 
+ *  the different elements it contains.
+ */
 public class Space {
 	
 	//keeps track of time
@@ -22,6 +27,7 @@ public class Space {
 	public final static int FIGHTER = 11;
 	
 	//Invader constants
+	public final static int TOTAL_INV_NUMBER = 100;
 	public final static int INV_SPEED = 5;
 	public final static int INV_HP = 1;
 	public final static int WAVE_SIZE = 6;
@@ -36,13 +42,15 @@ public class Space {
 	public final static double DEFAULT_DRAG = 1.25;
 	public final static int invulnTime = 10;
 	public final static int projectileSpeed = 8;
-	public final static int DEFAULT_COOLDOWN = 2;
-	public final static int TRIPLE_COOLDOWN = 2;
+	public final static int DEFAULT_COOLDOWN = 3;
+	public final static int TRIPLE_COOLDOWN = 8;
 	private int cooldown;
-	private int grid[][];
-	private int shotCoords[][]; //0: valid, 1: x coord, 2: y coord
+	private int shotCoords[][]; //0: valid bit, 1: x coord, 2: y coord
 	private Fighter fighter;
 	
+	private int grid[][];
+	
+	//construct Space.
 	public Space() {
 		counter = 1;
 		cooldown = 0;
@@ -50,22 +58,22 @@ public class Space {
 		shotCoords = new int[numberOfShots][3];
 		fighter = new Fighter(gridWidth/2, gridHeight*4/5);
 		for (int[] f: fighter.getCoordinates()) {grid[f[0]][f[1]] = FIGHTER;}
-		invaders = new Invader[100];
+		invaders = new Invader[TOTAL_INV_NUMBER];
 	}
 	
 	public int contents(int i, int j) {return grid[i][j];}
 	
+	//methods that deal with the Fighter
 	public void setFighterSpeed(int s) {fighter.setSpeed(s);}
 	public int getFighterSpeed() {return fighter.getSpeed();}
-	
 	public void clearFighter() {for (int f[]: fighter.getCoordinates()) {grid[f[0]][f[1]] = EMPTY;}}
 	private void setFighter() {for (int f[]: fighter.getCoordinates()) {grid[f[0]][f[1]] = FIGHTER;}}
-	
 	public void moveFighterUp() {fighter.resetUp();}
 	public void moveFighterDown() {fighter.resetDown();}
 	public void moveFighterRight() {fighter.resetRight();}
 	public void moveFighterLeft() {fighter.resetLeft();}
 	
+	//shoot a single projectile
 	public void fighterShoot() {
 		//manage cooldown
 		if (cooldown > 0) {return;}
@@ -82,11 +90,13 @@ public class Space {
 		}
 	}
 	
+	//shoot three projectiles
 	public void fighterTriple() {
 		//manage cooldown
 		if (cooldown > 0) {return;}
 		else {cooldown = TRIPLE_COOLDOWN;}
-		
+		//count deals with if we have enough projectiles to fire 3. 
+		//there may be some problems with this, might have a leak in the # of projectiles
 		int x = 0, y = 0, count = 0;
 		for (int[] coords : shotCoords) {
 			if (coords[0] == 0) {
@@ -109,6 +119,7 @@ public class Space {
 		grid[x-5][y] = BEAM;
 	}
 	
+	//pretty self-explanatory 
 	public Space update() throws EndGameException {
 		updatePlayer();
 		updateProjectiles();
@@ -148,6 +159,7 @@ public class Space {
 		}
 	}
 	
+	//very inefficient. checks every coordinate of every invader.
 	public void updateInvaders() throws EndGameException {
 		if (counter%WAVE_INTERVAL == 0) {sendWave();}
 		for (int n = 0; n < invaders.length; n++) {
@@ -185,6 +197,7 @@ public class Space {
 		}
 	}
 	
+	//methods that deal with invaders
 	public void remove(Invader invader) {
 		int[][] coord = invader.getCoordinates();
 		for (int i = invader.getCoordinates().length-1; i >=0; i--) {

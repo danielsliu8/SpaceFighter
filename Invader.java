@@ -1,4 +1,6 @@
-
+/*
+ *  An Invader. The supposed bad guys. They are very simple.
+ */
 public class Invader {
 
 	/* An enemy looks like this:
@@ -16,11 +18,13 @@ public class Invader {
 	 *  
 	 */
 	
+	//very few variables.
 	private int coordinates[][];
 	private int hitPoints;
 	private boolean dead;
 	
 	public Invader(int i, int j) {
+		//describes the shape of the invader.
 		int[][] temp = {
 				{i+4,j},{i-4,j},
 				{i+3,j+1},{i-3,j+1},
@@ -46,6 +50,8 @@ public class Invader {
 	public int[][] getCoordinates() {return coordinates;}
 	public boolean dead() {return dead;}
 	public int bottom() {return coordinates[coordinates.length-1][1];}
+	
+	//probably not going to follow through with this idea. doesn't help with efficiency.
 	public int[][] getHitCoordinates() {
 		return null;
 	}

@@ -1,3 +1,6 @@
+/*
+ *  I made a JFrame that implements a KeyListener. Translates keyboard commands to Space methods.
+ */
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -7,15 +10,15 @@ public class SFrame extends JFrame implements KeyListener{
 	private Space space;
 	private boolean[] keys;
 	/*  Keys:
-	 *  W - move player up
-	 *  A - move player left
-	 *  S - move player down
-	 *  D - move player right
+	 *  (0) W - move player up
+	 *  (1) A - move player left
+	 *  (2) S - move player down
+	 *  (3) D - move player right
 	 *  
-	 *  J - fire once
-	 *  K - fire thrice
+	 *  (4) J - fire once
+	 *  (5) K - fire thrice
 	 *  
-	 *  Q - quit
+	 *  (6) Q - quit
 	 *  
 	 */
 	
@@ -25,7 +28,7 @@ public class SFrame extends JFrame implements KeyListener{
 		keys = new boolean[7];
 	}
 	
-	private void move() {
+	private void action() {
 		if (keys[0]) {space.moveFighterUp();}
 		if (keys[1]) {space.moveFighterDown();}
 		if (keys[2]) {space.moveFighterLeft();}
@@ -35,6 +38,7 @@ public class SFrame extends JFrame implements KeyListener{
 		if (keys[6]) {System.exit(0);}
 	}
 	
+	//controls for multiple key presses
 	private void setKeys(KeyEvent event, boolean live) {
 		if (event.getKeyCode()==KeyEvent.VK_W) {keys[0] = live;}
 		if (event.getKeyCode()==KeyEvent.VK_S) {keys[1] = live;}
@@ -43,7 +47,7 @@ public class SFrame extends JFrame implements KeyListener{
 		if (event.getKeyCode()==KeyEvent.VK_J) {keys[4] = live;}
 		if (event.getKeyCode()==KeyEvent.VK_K) {keys[5] = live;}
 		if (event.getKeyCode()==KeyEvent.VK_Q) {keys[6] = live;}
-		move();
+		action();
 	}
 	
 	public void keyPressed(KeyEvent event) {setKeys(event, true);}
