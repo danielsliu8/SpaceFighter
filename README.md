@@ -7,5 +7,3 @@ There are some difficulties I'm having with the main game loop as well, includin
  - efficiency in detecting collisions
 
 Right now I'm controlling the speed of the game by just calling Thread.sleep(), which I know is bad, and I intend on implementing a clock for the game to run by instead. Running the game also takes a heavy toll on the processor -- testing for collisions between invaders and projectiles right now is just very inefficient. So be careful when running the game that you're not running to much stuff in the background or your computer will not be happy.
-
-As of right now, SpaceFighter is still not very well documented either.
