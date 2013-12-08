@@ -154,20 +154,20 @@ public class Space {
 			if (invaders[n] != null) {
 		
 				boolean invaderDead = false;
-//				for (int i = invaders[n].getCoordinates().length-1; i >= 0; i--) {
-//					int x = invaders[n].getCoordinates()[i][0];
-//					int y = invaders[n].getCoordinates()[i][1];
-//					if (y > BOTTOM_BORDER - 30) {
-//						invaderDead = true; 
-//						break;
-//					} else if (grid[x][y] == BEAM || grid[x][y+1] == BEAM || grid[x][y-1] == BEAM) {
-//						invaders[n].hit();
-//						if (grid[x][y+1] == BEAM) {removeShot(x, y+1);}
-//						else if (grid[x][y-1] == BEAM) {removeShot(x, y-1);}
-//						else {removeShot(x, y);}
-//						if (invaders[n].dead()) {invaderDead = true; break;}
-//					} else if (grid[x][y] == FIGHTER && !fighter.invulnerable()) {fighter.hit();}
-//				}
+				for (int i = invaders[n].getCoordinates().length-1; i >= 0; i--) {
+					int x = invaders[n].getCoordinates()[i][0];
+					int y = invaders[n].getCoordinates()[i][1];
+					if (y > BOTTOM_BORDER - 30) {
+						invaderDead = true; 
+						break;
+					} else if (grid[x][y] == BEAM || grid[x][y+1] == BEAM || grid[x][y-1] == BEAM) {
+						invaders[n].hit();
+						if (grid[x][y+1] == BEAM) {removeShot(x, y+1);}
+						else if (grid[x][y-1] == BEAM) {removeShot(x, y-1);}
+						else {removeShot(x, y);}
+						if (invaders[n].dead()) {invaderDead = true; break;}
+					} else if (grid[x][y] == FIGHTER && !fighter.invulnerable()) {fighter.hit();}
+				}
 				if (invaderDead) {
 					remove(invaders[n]);
 					invaders[n] = null;
